@@ -1,7 +1,7 @@
 # Chunking data -> Vector data
 # Vector data -> ChromaDB
 # Export Vector data, Meta data
-# Visualize result!
+# Visualize result with Tensorflow projector
 
 !pip install chromadb
 !pip install sentence-transformers
