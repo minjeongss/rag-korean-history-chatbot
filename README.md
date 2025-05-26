@@ -11,4 +11,5 @@ MarkdownHeaderTextSplitter > RecursiveCharacterTextSplitter
 
 ### embedding
 
-- model: all-MiniLM-L6-v2
+- model(korean): intfloat/multilingual-e5-large
+- model(default): all-MiniLM-L6-v2

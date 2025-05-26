@@ -11,12 +11,14 @@ from chromadb.utils import embedding_functions
 with open("final_chunks.json", "r", encoding="utf-8") as f:
     chunks = json.load(f)
 
-# 2. Embedding model
-default_ef = embedding_functions.DefaultEmbeddingFunction()
+# 2. Embedding model: multilingual-e5-large
+sentence_transformer_ef = embedding_functions.SentenceTransformerEmbeddingFunction(
+    model_name="intfloat/multilingual-e5-large"
+)
 
 # 3. Chromadb connect
 client = chromadb.Client()
-collection = client.create_collection(name="korean_chunks2", embedding_function=default_ef)
+collection = client.create_collection(name="korean_chunks2", embedding_function=sentence_transformer_ef)
 
 collection.add(
     documents=chunks,
