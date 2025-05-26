@@ -3,8 +3,7 @@
 # Export Vector data, Meta data
 # Visualize result with Tensorflow projector
 
-!pip install chromadb
-!pip install sentence-transformers
+!pip install -q chromadb sentence-transformers
 
 import json
 import chromadb

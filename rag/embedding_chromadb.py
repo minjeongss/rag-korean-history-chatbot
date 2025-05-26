@@ -1,8 +1,7 @@
 # Chunking data -> Vector data
 # Vector data -> ChromaDB
 
-!pip install chromadb
-!pip install sentence-transformers
+!pip install -q chromadb sentence-transformers
 
 import json
 import chromadb
