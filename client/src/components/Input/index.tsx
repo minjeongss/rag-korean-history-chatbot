@@ -4,7 +4,7 @@ import Button from "../Button";
 const Input = () => {
   const [mode, setMode] = useState<"text" | "voice">("text");
   return (
-    <div className="w-4/5 h-35 flex flex-col gap-4 bg-[#FFFFFF] p-4 rounded-[16px] border border-2 border-[#CCCCCC]">
+    <div className="w-3/5 h-35 flex flex-col gap-4 bg-[#FFFFFF] p-4 rounded-[16px] border border-2 border-[#CCCCCC]">
       <textarea
         name="question"
         rows={10}
