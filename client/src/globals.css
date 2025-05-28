@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* Pretendard
+- 400(default)
+- 500(medium)
+- 600(semibold)
+- 700(bold)
+*/
 @font-face {
   font-family: Pretendard;
   font-style: normal;
