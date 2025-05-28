@@ -3,7 +3,7 @@
 @font-face {
   font-family: Pretendard;
   font-style: normal;
-  font-weight: 200 700;
+  font-weight: 500 600 700;
   font-display: swap;
   src: url("./assets/fonts/PretendardVariable.woff2") format("woff2-variations");
 }
