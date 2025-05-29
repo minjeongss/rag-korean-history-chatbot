@@ -1,22 +1,41 @@
+import type {
+  ServiceResponseType,
+  UserResponseType,
+} from "../../types/Response";
 import ServiceResponse from "./ServiceResponse";
 import UserResponse from "./UserResponse";
 
 const Communication = () => {
-  const responses = [
+  const responses: (UserResponseType | ServiceResponseType)[] = [
     { type: "user", text: "조선시대 태종 왕자의 난은 왜 일어난거야?" },
     {
       type: "service",
-      text: "태종은 자신의 왕권 강화를 위해 형제들을 제거한 사건입니다.",
+      text: {
+        index: 0,
+        summary: "A",
+        question: "B",
+        hints: ["CCCCCCCCCCCCCCcc", "D", "E"],
+      },
+    },
+    { type: "user", text: "조선시대 태종 왕자의 난은 왜 일어난거야?" },
+    {
+      type: "service",
+      text: {
+        index: 0,
+        summary: "A",
+        question: "B",
+        hints: ["C", "D", "E"],
+      },
     },
   ];
   return (
     <div className="flex flex-col p-10 ">
       <ul className="flex flex-col gap-5">
-        {responses.map((response, idx) => (
+        {responses.map((response, index) => (
           <li
-            key={`${response.text}+${idx}`}
+            key={`${response.type}+${index}`}
             className={
-              idx % 2 === 0 ? "flex justify-end" : "flex justify-start"
+              index % 2 === 0 ? "flex justify-end" : "flex justify-start"
             }
           >
             {response.type === "user" ? (
