@@ -1,6 +1,19 @@
-const Button = ({ imgSrc }: { imgSrc: string }) => {
+const Button = ({
+  imgSrc,
+  onClick,
+}: {
+  imgSrc: string;
+  onClick: (
+    event:
+      | React.MouseEvent<HTMLButtonElement>
+      | React.TouchEvent<HTMLButtonElement>
+  ) => void;
+}) => {
   return (
-    <button className="w-10 h-10 p-2 flex justify-center items-center rounded-[10px] bg-[#8FBF3D]/50">
+    <button
+      onClick={onClick}
+      className="w-10 h-10 p-2 flex justify-center items-center rounded-[10px] bg-[#8FBF3D]/50"
+    >
       <img
         src={imgSrc}
         alt="button"

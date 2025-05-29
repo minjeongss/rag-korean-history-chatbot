@@ -1,3 +1,4 @@
+import React from "react";
 import type { SummaryTextType } from "../../types/Response";
 
 interface SummaryResponseProps {
@@ -16,7 +17,7 @@ const SummaryResponse = ({ text }: SummaryResponseProps) => {
         <p className="text-lg font-bold">사고 과정</p>
         <div className="flex flex-row justify-between items-center gap-2">
           {text.thoughtProcess.map((thought, index) => (
-            <>
+            <React.Fragment key={`${thought}${index}`}>
               <div className="w-auto p-3 rounded-[16px] bg-[#8FBF3D]/30">
                 {thought}
               </div>
@@ -28,15 +29,15 @@ const SummaryResponse = ({ text }: SummaryResponseProps) => {
                 />
                 // <div>*</div>
               )}
-            </>
+            </React.Fragment>
           ))}
         </div>
       </div>
       <div className="flex flex-col gap-2">
         <div className="text-lg font-bold">키워드 정리</div>
         <div className="flex flex-col gap-1">
-          {text.keywords.map((keyword) => (
-            <div>&middot; {keyword}</div>
+          {text.keywords.map((keyword, index) => (
+            <div key={`${keyword}${index}`}>&middot; {keyword}</div>
           ))}
         </div>
       </div>
