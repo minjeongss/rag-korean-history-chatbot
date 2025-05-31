@@ -1,16 +1,23 @@
 import { useLocation } from "react-router-dom";
 import Input from "../../components/Input";
-import { responses } from "../../mocks/Responses";
 import ServiceResponse from "./ServiceResponse";
 import SummaryResponse from "./SummaryResponse";
 import UserResponse from "./UserResponse";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { useResponseControl } from "../../hooks/useResponseControl";
 
 const Communication = () => {
+  const { responses, setResponses } = useResponseControl();
   const location = useLocation();
+  const isMounted = useRef(false);
+
   useEffect(() => {
-    console.log(location.state);
+    if (!isMounted.current) {
+      isMounted.current = true;
+      setResponses((prev) => [...prev, { type: "user", text: location.state }]);
+    }
   }, []);
+
   return (
     <div className="flex flex-col p-20">
       <ul className="flex flex-col gap-5">
