@@ -10,9 +10,11 @@ import { useSpeechRecognition } from "../../hooks/useSpeechRecognition";
 const Input = ({
   width = 60,
   mutate,
+  isPending,
 }: {
   width?: number;
   mutate: (text: string) => void;
+  isPending: boolean;
 }) => {
   const [text, setText] = useState<string>("");
   const location = useLocation();
@@ -48,6 +50,7 @@ const Input = ({
                   : handleStepResponse(text, setText, mutate)
               }
               imgSrc="/src/assets/images/send.png"
+              disabled={isPending}
             />
           </>
         ) : (

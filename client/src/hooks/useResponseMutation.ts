@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { SetStateAction } from "react";
+import { useState, type SetStateAction } from "react";
 import type { ResponseType, ServiceTextType } from "../types/Response";
 
 export const useResponseMutation = (
@@ -7,10 +7,11 @@ export const useResponseMutation = (
 ) => {
   const queryClient = useQueryClient();
 
-  const { mutate, error, isPending, isError } = useMutation({
+  const [isPending, setIsPending] = useState(false);
+  const { mutate, error, isError } = useMutation({
     mutationKey: ["response"],
     mutationFn: async (text: string) => {
-      const response = await fetch("http://44.221.176.144:8080/question", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/question`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -25,9 +26,8 @@ export const useResponseMutation = (
       }
       return response.json();
     },
-    gcTime: 1000 * 60 * 5, // 5분
-
     onMutate: async (text) => {
+      setIsPending(true);
       setResponses((prev) => [
         ...prev,
         { type: "user", text },
@@ -41,15 +41,15 @@ export const useResponseMutation = (
           },
         },
       ]);
+
+      // 낙관적 업데이트
       await queryClient.cancelQueries({ queryKey: ["response"] });
       const prevResponse = queryClient.getQueryData(["response"]);
       if (prevResponse) {
         queryClient.setQueryData(["response"], (prev) => [...prev, text]);
       }
-
       return { prevResponse };
     },
-
     onSuccess: (data) => {
       setResponses((prev) => [
         ...prev.filter(
@@ -62,7 +62,7 @@ export const useResponseMutation = (
         { type: data.type, text: data.text },
       ]);
     },
-    onError: (error) => {
+    onError: () => {
       setResponses((prev) => [
         ...prev.filter(
           (res) =>
@@ -81,11 +81,12 @@ export const useResponseMutation = (
           },
         },
       ]);
-      console.error(error);
     },
     onSettled: () => {
+      setIsPending(false);
       queryClient.invalidateQueries({ queryKey: ["response"] });
     },
+    gcTime: 1000 * 60 * 5, // 5분
     retry: 3,
     retryDelay: 500,
   });

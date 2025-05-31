@@ -11,7 +11,8 @@ const Communication = () => {
   const { responses, setResponses } = useResponseControl();
   const location = useLocation();
   const isMounted = useRef(false);
-  const { mutate } = useResponseMutation(setResponses);
+  const { mutate, isPending } = useResponseMutation(setResponses);
+  console.log("isPending", isPending);
 
   useEffect(() => {
     if (!isMounted.current) {
@@ -42,7 +43,7 @@ const Communication = () => {
       </ul>
       <div className="w-auto h-[140px]" />
       <div className="fixed left-0 right-0 bottom-0 px-20 pb-5 bg-[#FAFAFA]">
-        <Input width={100} mutate={mutate} />
+        <Input width={100} mutate={mutate} isPending={isPending} />
       </div>
     </div>
   );
