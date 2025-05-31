@@ -9,10 +9,10 @@ import { useSpeechRecognition } from "../../hooks/useSpeechRecognition";
 
 const Input = ({
   width = 60,
-  handleSubmit,
+  handleSubmit = () => {},
 }: {
-  width: number;
-  handleSubmit: (useResponse: string) => void;
+  width?: number;
+  handleSubmit?: (useResponse: string) => void;
 }) => {
   const [text, setText] = useState<string>("");
   const location = useLocation();
