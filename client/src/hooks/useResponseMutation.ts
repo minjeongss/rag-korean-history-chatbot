@@ -42,11 +42,28 @@ export const useResponseMutation = (
         },
       ]);
 
-      // 낙관적 업데이트
+      /**
+       * 낙관적 업데이트
+       * 단, 현재 프로젝트에선 useQeury를 사용하지 않아 반영되진 않음
+       */
+      // 1. 과거에 보낸 fetch 요청 중단
       await queryClient.cancelQueries({ queryKey: ["response"] });
       const prevResponse = queryClient.getQueryData(["response"]);
+      // 2. 낙관적 업데이트로 캐시 조작
       if (prevResponse) {
-        queryClient.setQueryData(["response"], (prev) => [...prev, text]);
+        queryClient.setQueryData(["response"], (prev: ResponseType[]) => [
+          ...prev,
+          { type: "user", text },
+          {
+            type: "service",
+            text: {
+              index: -1,
+              summary: "한국사를 열심히 찾는 중이야! 잠깐만 기다려줘-!",
+              question: "",
+              hints: [],
+            },
+          },
+        ]);
       }
       return { prevResponse };
     },
@@ -61,6 +78,23 @@ export const useResponseMutation = (
         ),
         { type: data.type, text: data.text },
       ]);
+
+      // 캐시 정상적 업데이트
+      const current =
+        queryClient.getQueryData<ResponseType[]>(["response"]) ?? [];
+      queryClient.setQueryData<ResponseType[]>(
+        ["response"],
+        [
+          ...current.filter(
+            (res) =>
+              !(
+                res.type === "service" &&
+                (res.text as ServiceTextType).index === -1
+              )
+          ),
+          { type: data.type, text: data.text },
+        ]
+      );
     },
     onError: () => {
       setResponses((prev) => [
@@ -74,7 +108,25 @@ export const useResponseMutation = (
         {
           type: "service",
           text: {
-            index: -1,
+            index: 0,
+            summary: "자료를 찾는 데 문제가 생겼어. 다시 한 번 물어봐줄래?",
+            question: "",
+            hints: [],
+          },
+        },
+      ]);
+      queryClient.setQueryData(["response"], (prev: ResponseType[]) => [
+        ...prev.filter(
+          (res) =>
+            !(
+              res.type === "service" &&
+              (res.text as ServiceTextType).index === -1
+            )
+        ),
+        {
+          type: "service",
+          text: {
+            index: 0,
             summary: "자료를 찾는 데 문제가 생겼어. 다시 한 번 물어봐줄래?",
             question: "",
             hints: [],
@@ -87,7 +139,7 @@ export const useResponseMutation = (
       queryClient.invalidateQueries({ queryKey: ["response"] });
     },
     gcTime: 1000 * 60 * 5, // 5분
-    retry: 3,
+    retry: 1,
     retryDelay: 500,
   });
 

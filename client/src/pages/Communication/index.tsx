@@ -6,13 +6,21 @@ import { useEffect, useRef } from "react";
 import { useResponseControl } from "../../hooks/useResponseControl";
 import UserResponse from "./UserResponse";
 import { useResponseMutation } from "../../hooks/useResponseMutation";
+import { useQuery } from "@tanstack/react-query";
 
 const Communication = () => {
   const { responses, setResponses } = useResponseControl();
   const location = useLocation();
   const isMounted = useRef(false);
   const { mutate, isPending } = useResponseMutation(setResponses);
-  console.log("isPending", isPending);
+  const { data } = useQuery({
+    queryKey: ["response"],
+    initialData: [],
+  });
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   useEffect(() => {
     if (!isMounted.current) {

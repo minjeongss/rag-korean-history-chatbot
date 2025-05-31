@@ -16,8 +16,6 @@ const SummaryResponse = ({ text }: SummaryResponseProps) => {
       ${show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}
       `}
     >
-      <div>요약을 불러오는 중입니다...</div>
-
       <div>{text.questionSummary}</div>
       <div className="flex flex-col gap-2">
         <p className="text-lg font-bold">요약</p>
