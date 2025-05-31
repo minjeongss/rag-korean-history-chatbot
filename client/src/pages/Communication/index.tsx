@@ -3,36 +3,33 @@ import Input from "../../components/Input";
 import ServiceResponse from "./ServiceResponse";
 import SummaryResponse from "./SummaryResponse";
 import { useEffect, useRef } from "react";
-import { useResponseControl } from "../../hooks/useResponseControl";
 import UserResponse from "./UserResponse";
 import { useResponseMutation } from "../../hooks/useResponseMutation";
 import { useQuery } from "@tanstack/react-query";
+import type { ResponseType } from "../../types/Response";
 
 const Communication = () => {
-  const { responses, setResponses } = useResponseControl();
   const location = useLocation();
   const isMounted = useRef(false);
-  const { mutate, isPending } = useResponseMutation(setResponses);
-  const { data } = useQuery({
+
+  const { data, isPending } = useQuery<ResponseType[]>({
     queryKey: ["response"],
     initialData: [],
   });
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  const { mutate } = useResponseMutation();
 
   useEffect(() => {
     if (!isMounted.current) {
       isMounted.current = true;
       mutate(location.state);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className="flex flex-col p-20">
       <ul className="flex flex-col gap-5">
-        {responses.map((response, index) => (
+        {data.map((response, index) => (
           <li
             key={`${response.type}+${index}`}
             className={

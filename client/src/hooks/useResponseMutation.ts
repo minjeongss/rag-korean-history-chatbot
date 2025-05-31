@@ -1,13 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState, type SetStateAction } from "react";
 import type { ResponseType, ServiceTextType } from "../types/Response";
 
-export const useResponseMutation = (
-  setResponses: React.Dispatch<SetStateAction<ResponseType[]>>
-) => {
+export const useResponseMutation = () => {
   const queryClient = useQueryClient();
 
-  const [isPending, setIsPending] = useState(false);
   const { mutate, error, isError } = useMutation({
     mutationKey: ["response"],
     mutationFn: async (text: string) => {
@@ -27,21 +23,6 @@ export const useResponseMutation = (
       return response.json();
     },
     onMutate: async (text) => {
-      setIsPending(true);
-      setResponses((prev) => [
-        ...prev,
-        { type: "user", text },
-        {
-          type: "service",
-          text: {
-            index: -1,
-            summary: "한국사를 열심히 찾는 중이야! 잠깐만 기다려줘-!",
-            question: "",
-            hints: [],
-          },
-        },
-      ]);
-
       /**
        * 낙관적 업데이트
        * 단, 현재 프로젝트에선 useQeury를 사용하지 않아 반영되진 않음
@@ -68,17 +49,6 @@ export const useResponseMutation = (
       return { prevResponse };
     },
     onSuccess: (data) => {
-      setResponses((prev) => [
-        ...prev.filter(
-          (res) =>
-            !(
-              res.type === "service" &&
-              (res.text as ServiceTextType).index === -1
-            )
-        ),
-        { type: data.type, text: data.text },
-      ]);
-
       // 캐시 정상적 업데이트
       const current =
         queryClient.getQueryData<ResponseType[]>(["response"]) ?? [];
@@ -97,24 +67,6 @@ export const useResponseMutation = (
       );
     },
     onError: () => {
-      setResponses((prev) => [
-        ...prev.filter(
-          (res) =>
-            !(
-              res.type === "service" &&
-              (res.text as ServiceTextType).index === -1
-            )
-        ),
-        {
-          type: "service",
-          text: {
-            index: 0,
-            summary: "자료를 찾는 데 문제가 생겼어. 다시 한 번 물어봐줄래?",
-            question: "",
-            hints: [],
-          },
-        },
-      ]);
       queryClient.setQueryData(["response"], (prev: ResponseType[]) => [
         ...prev.filter(
           (res) =>
@@ -135,7 +87,6 @@ export const useResponseMutation = (
       ]);
     },
     onSettled: () => {
-      setIsPending(false);
       queryClient.invalidateQueries({ queryKey: ["response"] });
     },
     gcTime: 1000 * 60 * 5, // 5분
@@ -146,7 +97,6 @@ export const useResponseMutation = (
   return {
     mutate,
     error,
-    isPending,
     isError,
   };
 };
