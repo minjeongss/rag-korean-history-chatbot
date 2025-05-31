@@ -1,16 +1,18 @@
 import { useState } from "react";
 import Button from "../Button";
-import {
-  handleSendClick,
-  handleStopClick,
-  handleVoiceClick,
-} from "../../hooks/useButtonClick";
+import { handleSendClick } from "../../hooks/useButtonClick";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useSpeechRecognition } from "../../hooks/useSpeechRecognition";
 
 const Input = ({ width = 60 }) => {
-  const [mode, setMode] = useState<"text" | "voice">("text");
+  const [text, setText] = useState<string>("");
   const location = useLocation();
   const navigate = useNavigate();
+  const { isListening, startListening, stopListening } = useSpeechRecognition(
+    text,
+    setText
+  );
+
   return (
     <div
       style={{ width: `${width}%`, maxWidth: `${width}%` }}
@@ -20,24 +22,24 @@ const Input = ({ width = 60 }) => {
         name="question"
         rows={10}
         className="flex-grow resize-none outline-none"
+        value={text}
+        onChange={(event) => setText(event.target.value)}
       />
       <div className="flex flex-row justify-end items-end gap-4">
-        {mode === "text" ? (
+        {isListening === false ? (
           <>
             <Button
-              onClick={(event) => handleVoiceClick(event)}
+              onClick={startListening}
               imgSrc="/src/assets/images/voice.png"
             />
             <Button
-              onClick={(event) =>
-                handleSendClick(event, location.pathname, navigate)
-              }
+              onClick={() => handleSendClick(location.pathname, navigate)}
               imgSrc="/src/assets/images/send.png"
             />
           </>
         ) : (
           <Button
-            onClick={(event) => handleStopClick(event)}
+            onClick={stopListening}
             imgSrc="/src/assets/images/stop.png"
           />
         )}
