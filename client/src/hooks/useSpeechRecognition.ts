@@ -22,7 +22,7 @@ export const useSpeechRecognition = (
 
   useEffect(() => {
     if (!SpeechRecognition) {
-      alert("이 브라우저는 SpeechRecognition을 지원하지 않습니다.");
+      alert("이 브라우저는 음성 인식을 지원하지 않습니다.");
       return;
     }
 

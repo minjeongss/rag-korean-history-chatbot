@@ -1,10 +1,16 @@
+import { useLocation } from "react-router-dom";
 import Input from "../../components/Input";
 import { responses } from "../../mocks/Responses";
 import ServiceResponse from "./ServiceResponse";
 import SummaryResponse from "./SummaryResponse";
 import UserResponse from "./UserResponse";
+import { useEffect } from "react";
 
 const Communication = () => {
+  const location = useLocation();
+  useEffect(() => {
+    console.log(location.state);
+  }, []);
   return (
     <div className="flex flex-col p-20">
       <ul className="flex flex-col gap-5">

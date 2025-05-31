@@ -1,22 +1,12 @@
 import type { NavigateFunction } from "react-router-dom";
 
-export const handleStartListen = (
-  setIsListening: React.Dispatch<React.SetStateAction<"text" | "speech">>
-) => {
-  setIsListening("speech");
-};
-
-export const handleStopListen = (
-  setIsListening: React.Dispatch<React.SetStateAction<"text" | "speech">>
-) => {
-  setIsListening("text");
-};
-
 export const handleSendClick = (
+  text: string,
   location: string,
   navigate: NavigateFunction
 ) => {
+  if (text.trim() === "") return;
   if (location === "/") {
-    navigate("/step");
+    navigate("/step", { state: text });
   }
 };

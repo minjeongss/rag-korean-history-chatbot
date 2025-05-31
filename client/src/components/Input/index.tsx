@@ -33,7 +33,7 @@ const Input = ({ width = 60 }) => {
               imgSrc="/src/assets/images/voice.png"
             />
             <Button
-              onClick={() => handleSendClick(location.pathname, navigate)}
+              onClick={() => handleSendClick(text, location.pathname, navigate)}
               imgSrc="/src/assets/images/send.png"
             />
           </>
