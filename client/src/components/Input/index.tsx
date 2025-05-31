@@ -1,10 +1,19 @@
 import { useState } from "react";
 import Button from "../Button";
-import { handleSendClick } from "../../hooks/useButtonClick";
+import {
+  handleFirstResponse,
+  handleStepResponse,
+} from "../../hooks/useButtonClick";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSpeechRecognition } from "../../hooks/useSpeechRecognition";
 
-const Input = ({ width = 60 }) => {
+const Input = ({
+  width = 60,
+  handleSubmit,
+}: {
+  width: number;
+  handleSubmit: (useResponse: string) => void;
+}) => {
   const [text, setText] = useState<string>("");
   const location = useLocation();
   const navigate = useNavigate();
@@ -33,7 +42,11 @@ const Input = ({ width = 60 }) => {
               imgSrc="/src/assets/images/voice.png"
             />
             <Button
-              onClick={() => handleSendClick(text, location.pathname, navigate)}
+              onClick={() =>
+                location.pathname === "/"
+                  ? handleFirstResponse(text, navigate)
+                  : handleStepResponse(text, setText, handleSubmit)
+              }
               imgSrc="/src/assets/images/send.png"
             />
           </>

@@ -1,12 +1,18 @@
 import type { NavigateFunction } from "react-router-dom";
 
-export const handleSendClick = (
+export const handleFirstResponse = (
   text: string,
-  location: string,
   navigate: NavigateFunction
 ) => {
   if (text.trim() === "") return;
-  if (location === "/") {
-    navigate("/step", { state: text });
-  }
+  navigate("/step", { state: text });
+};
+
+export const handleStepResponse = (
+  text: string,
+  setText: React.Dispatch<React.SetStateAction<string>>,
+  handleSubmit: (userResponse: string) => void
+) => {
+  handleSubmit(text);
+  setText("");
 };

@@ -17,6 +17,9 @@ const Communication = () => {
       setResponses((prev) => [...prev, { type: "user", text: location.state }]);
     }
   }, []);
+  const handleSubmit = (userResponse: string) => {
+    setResponses((prev) => [...prev, { type: "user", text: userResponse }]);
+  };
 
   return (
     <div className="flex flex-col p-20">
@@ -40,7 +43,7 @@ const Communication = () => {
       </ul>
       <div className="w-auto h-[140px]" />
       <div className="fixed left-0 right-0 bottom-0 px-20 pb-5 bg-[#FAFAFA]">
-        <Input width={100} />
+        <Input width={100} handleSubmit={handleSubmit} />
       </div>
     </div>
   );
