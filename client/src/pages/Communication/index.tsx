@@ -13,24 +13,23 @@ const Communication = () => {
 
   useEffect(() => {
     if (!isMounted.current) {
+      const fetchResponse = async () => {
+        const response = await fetch("/step");
+        const data = await response.json();
+        return data;
+      };
+
+      const fetchAndSet = async () => {
+        setResponses((prev) => [
+          ...prev,
+          { type: "user", text: location.state },
+        ]);
+        const data = await fetchResponse();
+        setResponses((prev) => [...prev, { type: data.type, text: data.text }]);
+      };
+
       isMounted.current = true;
-      setResponses((prev) => [...prev, { type: "user", text: location.state }]);
-      setResponses((prev) => [
-        ...prev,
-        {
-          type: "service",
-          text: {
-            index: 0,
-            summary: "조선시대 태종 왕자의 난에 대한 간략한 요약입니다.",
-            question: "태종 왕자의 난은 왜 일어났나요?",
-            hints: [
-              "왕권 강화를 위한 내부 갈등",
-              "왕자의 권력 다툼",
-              "정치적 음모와 반란",
-            ],
-          },
-        },
-      ]);
+      fetchAndSet();
     }
   }, []);
 
