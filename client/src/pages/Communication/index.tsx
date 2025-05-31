@@ -7,7 +7,7 @@ import { useEffect, useRef } from "react";
 import { useResponseControl } from "../../hooks/useResponseControl";
 
 const Communication = () => {
-  const { responses, setResponses } = useResponseControl();
+  const { responses, setResponses, handleSubmit } = useResponseControl();
   const location = useLocation();
   const isMounted = useRef(false);
 
@@ -17,9 +17,6 @@ const Communication = () => {
       setResponses((prev) => [...prev, { type: "user", text: location.state }]);
     }
   }, []);
-  const handleSubmit = (userResponse: string) => {
-    setResponses((prev) => [...prev, { type: "user", text: userResponse }]);
-  };
 
   return (
     <div className="flex flex-col p-20">
