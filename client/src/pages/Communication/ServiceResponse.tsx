@@ -1,11 +1,19 @@
+import { useFadeIn } from "../../hooks/useFadeIn";
 import type { ServiceTextType } from "../../types/Response";
 interface ServiceResponseProps {
   text: ServiceTextType;
 }
 
 const ServiceResponse = ({ text }: ServiceResponseProps) => {
+  const { show } = useFadeIn();
   return (
-    <div className="w-[39.31rem] h-auto flex flex-col gap-6 p-10 rounded-[16px] bg-[#FFFFFF]">
+    <div
+      className={`
+      w-[39.31rem] h-auto flex flex-col gap-6 p-10 rounded-[16px] bg-[#FFFFFF]
+      transition-all duration-700 ease-out
+      ${show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}
+      `}
+    >
       <div>{text.summary}</div>
       <div className="flex flex-col gap-2">
         <div className="text-lg font-bold">{text.index + 1}번째 질문</div>

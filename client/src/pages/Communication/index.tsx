@@ -2,9 +2,9 @@ import { useLocation } from "react-router-dom";
 import Input from "../../components/Input";
 import ServiceResponse from "./ServiceResponse";
 import SummaryResponse from "./SummaryResponse";
-import UserResponse from "./UserResponse";
 import { useEffect, useRef } from "react";
 import { useResponseControl } from "../../hooks/useResponseControl";
+import UserResponse from "./UserResponse";
 
 const Communication = () => {
   const { responses, setResponses, handleSubmit } = useResponseControl();

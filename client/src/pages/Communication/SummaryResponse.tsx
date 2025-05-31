@@ -1,13 +1,21 @@
 import React from "react";
 import type { SummaryTextType } from "../../types/Response";
+import { useFadeIn } from "../../hooks/useFadeIn";
 
 interface SummaryResponseProps {
   text: SummaryTextType;
 }
 
 const SummaryResponse = ({ text }: SummaryResponseProps) => {
+  const { show } = useFadeIn();
   return (
-    <div className="w-full h-auto flex flex-col gap-6 p-10 rounded-[16px] bg-[#FFFFFF]">
+    <div
+      className={`
+      w-full h-auto flex flex-col gap-6 p-10 rounded-[16px] bg-[#FFFFFF]
+      transition-all duration-700 ease-out
+      ${show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}
+      `}
+    >
       <div>{text.questionSummary}</div>
       <div className="flex flex-col gap-2">
         <p className="text-lg font-bold">요약</p>
