@@ -1,3 +1,8 @@
+export type ResponseType =
+  | UserResponseType
+  | ServiceResponseType
+  | SummaryResponseType;
+
 export interface UserResponseType {
   type: "user";
   text: string;

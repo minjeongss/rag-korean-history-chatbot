@@ -9,10 +9,10 @@ import { useSpeechRecognition } from "../../hooks/useSpeechRecognition";
 
 const Input = ({
   width = 60,
-  handleSubmit = () => {},
+  mutate,
 }: {
   width?: number;
-  handleSubmit?: (useResponse: string) => void;
+  mutate: (text: string) => void;
 }) => {
   const [text, setText] = useState<string>("");
   const location = useLocation();
@@ -45,7 +45,7 @@ const Input = ({
               onClick={() =>
                 location.pathname === "/"
                   ? handleFirstResponse(text, navigate)
-                  : handleStepResponse(text, setText, handleSubmit)
+                  : handleStepResponse(text, setText, mutate)
               }
               imgSrc="/src/assets/images/send.png"
             />

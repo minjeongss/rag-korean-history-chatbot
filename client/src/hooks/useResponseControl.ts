@@ -1,23 +1,11 @@
 import { useState } from "react";
-import type {
-  ServiceResponseType,
-  SummaryResponseType,
-  UserResponseType,
-} from "../types/Response";
-import { getResponse } from "../api";
+import type { ResponseType } from "../types/Response";
 
 export const useResponseControl = () => {
-  const [responses, setResponses] = useState<
-    (UserResponseType | ServiceResponseType | SummaryResponseType)[]
-  >([]);
-
-  const handleSubmit = (userResponse: string) => {
-    getResponse(setResponses, userResponse);
-  };
+  const [responses, setResponses] = useState<ResponseType[]>([]);
 
   return {
     responses,
     setResponses,
-    handleSubmit,
   };
 };

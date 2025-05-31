@@ -5,17 +5,18 @@ import SummaryResponse from "./SummaryResponse";
 import { useEffect, useRef } from "react";
 import { useResponseControl } from "../../hooks/useResponseControl";
 import UserResponse from "./UserResponse";
-import { getResponse } from "../../api";
+import { useResponseMutation } from "../../hooks/useResponseMutation";
 
 const Communication = () => {
-  const { responses, setResponses, handleSubmit } = useResponseControl();
+  const { responses, setResponses } = useResponseControl();
   const location = useLocation();
   const isMounted = useRef(false);
+  const { mutate } = useResponseMutation(setResponses);
 
   useEffect(() => {
     if (!isMounted.current) {
       isMounted.current = true;
-      getResponse(setResponses, location.state);
+      mutate(location.state);
     }
   }, []);
 
@@ -41,7 +42,7 @@ const Communication = () => {
       </ul>
       <div className="w-auto h-[140px]" />
       <div className="fixed left-0 right-0 bottom-0 px-20 pb-5 bg-[#FAFAFA]">
-        <Input width={100} handleSubmit={handleSubmit} />
+        <Input width={100} mutate={mutate} />
       </div>
     </div>
   );
