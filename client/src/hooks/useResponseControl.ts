@@ -4,6 +4,7 @@ import type {
   SummaryResponseType,
   UserResponseType,
 } from "../types/Response";
+import { getResponse } from "../api";
 
 export const useResponseControl = () => {
   const [responses, setResponses] = useState<
@@ -11,23 +12,7 @@ export const useResponseControl = () => {
   >([]);
 
   const handleSubmit = (userResponse: string) => {
-    setResponses((prev) => [...prev, { type: "user", text: userResponse }]);
-    setResponses((prev) => [
-      ...prev,
-      {
-        type: "service",
-        text: {
-          index: 0,
-          summary: "조선시대 태종 왕자의 난에 대한 간략한 요약입니다.",
-          question: "태종 왕자의 난은 왜 일어났나요?",
-          hints: [
-            "왕권 강화를 위한 내부 갈등",
-            "왕자의 권력 다툼",
-            "정치적 음모와 반란",
-          ],
-        },
-      },
-    ]);
+    getResponse(setResponses, userResponse);
   };
 
   return {

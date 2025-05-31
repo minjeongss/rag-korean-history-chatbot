@@ -5,6 +5,7 @@ import SummaryResponse from "./SummaryResponse";
 import { useEffect, useRef } from "react";
 import { useResponseControl } from "../../hooks/useResponseControl";
 import UserResponse from "./UserResponse";
+import { getResponse } from "../../api";
 
 const Communication = () => {
   const { responses, setResponses, handleSubmit } = useResponseControl();
@@ -13,23 +14,8 @@ const Communication = () => {
 
   useEffect(() => {
     if (!isMounted.current) {
-      const fetchResponse = async () => {
-        const response = await fetch("/step");
-        const data = await response.json();
-        return data;
-      };
-
-      const fetchAndSet = async () => {
-        setResponses((prev) => [
-          ...prev,
-          { type: "user", text: location.state },
-        ]);
-        const data = await fetchResponse();
-        setResponses((prev) => [...prev, { type: data.type, text: data.text }]);
-      };
-
       isMounted.current = true;
-      fetchAndSet();
+      getResponse(setResponses, location.state);
     }
   }, []);
 
