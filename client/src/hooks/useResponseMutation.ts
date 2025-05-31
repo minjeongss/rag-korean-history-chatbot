@@ -14,6 +14,7 @@ export const useResponseMutation = () => {
         },
         body: JSON.stringify({ question: text }),
       });
+
       if (!response.ok) {
         const errorMessage = await response.text();
         throw new Error(
@@ -23,14 +24,11 @@ export const useResponseMutation = () => {
       return response.json();
     },
     onMutate: async (text) => {
-      /**
-       * 낙관적 업데이트
-       * 단, 현재 프로젝트에선 useQeury를 사용하지 않아 반영되진 않음
-       */
-      // 1. 과거에 보낸 fetch 요청 중단
+      // 과거에 보낸 fetch 요청 중단
       await queryClient.cancelQueries({ queryKey: ["response"] });
+      // rollback을 대비한 현재 버전 값 저장
       const prevResponse = queryClient.getQueryData(["response"]);
-      // 2. 낙관적 업데이트로 캐시 조작
+      // 낙관적 업데이트로 캐시 조작
       if (prevResponse) {
         queryClient.setQueryData(["response"], (prev: ResponseType[]) => [
           ...prev,
@@ -49,24 +47,23 @@ export const useResponseMutation = () => {
       return { prevResponse };
     },
     onSuccess: (data) => {
-      // 캐시 정상적 업데이트
-      const current =
-        queryClient.getQueryData<ResponseType[]>(["response"]) ?? [];
-      queryClient.setQueryData<ResponseType[]>(
-        ["response"],
-        [
-          ...current.filter(
-            (res) =>
-              !(
-                res.type === "service" &&
-                (res.text as ServiceTextType).index === -1
-              )
-          ),
-          { type: data.type, text: data.text },
-        ]
-      );
+      // 캐시 정상 값 업데이트
+      queryClient.setQueryData(["response"], (prev: ResponseType[]) => [
+        ...prev.filter(
+          (res) =>
+            !(
+              res.type === "service" &&
+              (res.text as ServiceTextType).index === -1
+            )
+        ),
+        {
+          type: "service",
+          text: data,
+        },
+      ]);
     },
     onError: () => {
+      // 캐시 오류 업데이트
       queryClient.setQueryData(["response"], (prev: ResponseType[]) => [
         ...prev.filter(
           (res) =>
