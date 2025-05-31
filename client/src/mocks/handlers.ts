@@ -1,4 +1,4 @@
-import { HttpResponse, http } from "msw";
+import { HttpResponse, delay, http } from "msw";
 import dummy from "./dummy.json";
 
 export const handlers = [
@@ -8,6 +8,7 @@ export const handlers = [
   http.post("/summary", async ({ request }) => {
     const body = await request.json();
     console.log(body);
-    return HttpResponse.json(dummy.summary);
+    await delay(5000);
+    return HttpResponse.json(dummy.step);
   }),
 ];
