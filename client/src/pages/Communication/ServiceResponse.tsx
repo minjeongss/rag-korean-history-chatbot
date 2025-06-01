@@ -16,7 +16,7 @@ const ServiceResponse = ({ text }: ServiceResponseProps) => {
       `}
     >
       <div>{text.summary}</div>
-      {text.index > 0 && (
+      {text.index >= 0 && (
         <>
           <div className="flex flex-col gap-2">
             <div className="text-lg font-bold">{text.index + 1}번째 질문</div>

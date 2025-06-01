@@ -36,7 +36,7 @@ export const useResponseMutation = () => {
           {
             type: "service",
             text: {
-              index: -1,
+              index: -2,
               summary: "한국사를 열심히 찾는 중이야! 잠깐만 기다려줘-!",
               question: "",
               hints: [],
@@ -53,12 +53,12 @@ export const useResponseMutation = () => {
           (res) =>
             !(
               res.type === "service" &&
-              (res.text as ServiceTextType).index === -1
+              (res.text as ServiceTextType).index === -2
             )
         ),
         {
-          type: "service",
-          text: data,
+          type: data.type,
+          text: data.text,
         },
       ]);
     },
@@ -69,13 +69,13 @@ export const useResponseMutation = () => {
           (res) =>
             !(
               res.type === "service" &&
-              (res.text as ServiceTextType).index === -1
+              (res.text as ServiceTextType).index === -2
             )
         ),
         {
           type: "service",
           text: {
-            index: 0,
+            index: -1,
             summary: "자료를 찾는 데 문제가 생겼어. 다시 한 번 물어봐줄래?",
             question: "",
             hints: [],
