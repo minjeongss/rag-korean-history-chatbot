@@ -84,7 +84,8 @@ export const useResponseMutation = () => {
       ]);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["response"] });
+      // 수동으로 캐시를 업데이트 해주기에 리패치 로직 해제
+      // queryClient.invalidateQueries({ queryKey: ["response"] });
     },
     gcTime: 1000 * 60 * 5, // 5분
     retry: 1,

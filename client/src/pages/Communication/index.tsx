@@ -14,7 +14,10 @@ const Communication = () => {
 
   const { data, isPending } = useQuery<ResponseType[]>({
     queryKey: ["response"],
+    queryFn: () => Promise.resolve([]),
     initialData: [],
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 5,
   });
   const { mutate } = useResponseMutation();
 
