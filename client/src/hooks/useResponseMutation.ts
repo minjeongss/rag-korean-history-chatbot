@@ -95,8 +95,6 @@ export const useResponseMutation = () => {
       // queryClient.invalidateQueries({ queryKey: ["response"] });
     },
     gcTime: 1000 * 60 * 5, // 5분
-    retry: 1,
-    retryDelay: 500,
   });
 
   return {
