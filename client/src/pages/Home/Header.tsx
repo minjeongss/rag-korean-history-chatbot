@@ -1,6 +1,12 @@
+import boyImage from "/src/assets/images/boy.png";
+import starImage from "/src/assets/images/star.png";
+
 const Header = () => {
   return (
-    <div className="w-3/5 h-[500px] flex flex-row justify-center items-center bg-[url('/src/assets/images/star.png')] bg-contain bg-no-repeat relative">
+    <div
+      className="w-3/5 h-[500px] flex flex-row justify-center items-center bg-contain bg-no-repeat relative"
+      style={{ backgroundImage: `url(${starImage})` }}
+    >
       <div className="absolute bottom-30 text-center bg-[#FAFAFA]">
         <p className="text-3xl">
           <span className=" font-medium">역사가 흐르고 있어,</span>
@@ -10,7 +16,7 @@ const Header = () => {
       </div>
       <img
         className="w-[120px] h-auto absolute bottom-4 right-18"
-        src={"/src/assets/images/boy.png"}
+        src={boyImage}
         alt="boy"
       />
     </div>

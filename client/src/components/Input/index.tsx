@@ -6,6 +6,9 @@ import {
 } from "../../hooks/useButtonClick";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSpeechRecognition } from "../../hooks/useSpeechRecognition";
+import voiceImage from "/src/assets/images/voice.png";
+import sendImage from "/src/assets/images/send.png";
+import stopImage from "/src/assets/images/stop.png";
 
 const Input = ({
   width = 60,
@@ -39,25 +42,19 @@ const Input = ({
       <div className="flex flex-row justify-end items-end gap-4">
         {isListening === false ? (
           <>
-            <Button
-              onClick={startListening}
-              imgSrc="/src/assets/images/voice.png"
-            />
+            <Button onClick={startListening} imgSrc={voiceImage} />
             <Button
               onClick={() =>
                 location.pathname === "/"
                   ? handleFirstResponse(text, navigate)
                   : handleStepResponse(text, setText, mutate)
               }
-              imgSrc="/src/assets/images/send.png"
+              imgSrc={sendImage}
               disabled={isPending}
             />
           </>
         ) : (
-          <Button
-            onClick={stopListening}
-            imgSrc="/src/assets/images/stop.png"
-          />
+          <Button onClick={stopListening} imgSrc={stopImage} />
         )}
       </div>
     </div>

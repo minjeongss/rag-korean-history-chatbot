@@ -2,7 +2,9 @@ import { useState, useEffect, useRef } from "react";
 
 declare global {
   interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     SpeechRecognition: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     webkitSpeechRecognition: any;
   }
 }
@@ -32,6 +34,7 @@ export const useSpeechRecognition = (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mic.onresult = (event: any) => {
       const transcript = Array.from(event.results)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .map((result: any) => result[0].transcript)
         .join("");
       setText(transcript);
