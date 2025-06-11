@@ -13,8 +13,8 @@ const Input = ({
   isPending,
 }: {
   width?: number;
-  mutate: (text: string) => void;
-  isPending: boolean;
+  mutate?: (text: string) => void;
+  isPending?: boolean;
 }) => {
   const [text, setText] = useState<string>("");
   const location = useLocation();

@@ -11,8 +11,8 @@ export const handleFirstResponse = (
 export const handleStepResponse = (
   text: string,
   setText: React.Dispatch<React.SetStateAction<string>>,
-  mutate: (text: string) => void
+  mutate?: (text: string) => void
 ) => {
-  mutate(text);
+  mutate?.(text);
   setText("");
 };
