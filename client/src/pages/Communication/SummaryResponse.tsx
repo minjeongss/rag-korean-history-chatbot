@@ -1,7 +1,7 @@
 import React from "react";
 import type { SummaryTextType } from "../../types/Response";
 import { useFadeIn } from "../../hooks/useFadeIn";
-
+import progressImage from "/src/assets/images/progress.png";
 interface SummaryResponseProps {
   text: SummaryTextType;
 }
@@ -32,7 +32,7 @@ const SummaryResponse = ({ text }: SummaryResponseProps) => {
               {index !== text.thoughtProcess.length - 1 && (
                 <img
                   className="w-[40px] h-auto shrink-0"
-                  src="/src/assets/images/progress.png"
+                  src={progressImage}
                   alt="arrow"
                 />
               )}
