@@ -35,7 +35,6 @@ const SummaryResponse = ({ text }: SummaryResponseProps) => {
                   src="/src/assets/images/progress.png"
                   alt="arrow"
                 />
-                // <div>*</div>
               )}
             </React.Fragment>
           ))}

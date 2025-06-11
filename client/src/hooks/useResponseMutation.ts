@@ -63,7 +63,8 @@ export const useResponseMutation = () => {
         },
       ]);
     },
-    onError: () => {
+    onError: (error) => {
+      console.log(error);
       // 캐시 오류 업데이트
       queryClient.setQueryData(["response"], (prev: ResponseType[]) => [
         ...prev.filter(
