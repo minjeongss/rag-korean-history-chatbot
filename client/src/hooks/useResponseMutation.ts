@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { ResponseType, ServiceTextType } from "../types/Response";
+import type { Error } from "../types/Error";
 
 export const useResponseMutation = () => {
   const queryClient = useQueryClient();
@@ -17,10 +18,14 @@ export const useResponseMutation = () => {
       });
 
       if (!response.ok) {
-        const errorMessage = await response.text();
-        throw new Error(
-          `에러 발생! 상태 코드: ${response.status}, 내용: ${errorMessage}`
-        );
+        if (response.status === 400 || response.status === 500) {
+          const errorMessage: Error = await response.json();
+          throw new Error(JSON.stringify(errorMessage));
+        } else {
+          throw new Error(
+            "자료를 찾는 데 문제가 생겼어. 다시 한 번 물어봐줄래?"
+          );
+        }
       }
       return response.json();
     },
@@ -78,7 +83,7 @@ export const useResponseMutation = () => {
           type: "service",
           text: {
             index: -1,
-            summary: "자료를 찾는 데 문제가 생겼어. 다시 한 번 물어봐줄래?",
+            summary: JSON.parse(error.message).message,
             question: "",
             hints: [],
           },
