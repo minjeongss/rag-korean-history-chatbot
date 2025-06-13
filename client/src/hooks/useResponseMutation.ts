@@ -69,7 +69,16 @@ export const useResponseMutation = () => {
       ]);
     },
     onError: (error) => {
-      console.log(error);
+      let message = "";
+      try {
+        const parsed = JSON.parse(error.message);
+        if (parsed?.message) {
+          message = parsed.message;
+        }
+      } catch {
+        message = "통신하는 데 문제가 생겼어. 다시 한 번 물어봐줄래?";
+      }
+
       // 캐시 오류 업데이트
       queryClient.setQueryData(["response"], (prev: ResponseType[]) => [
         ...prev.filter(
@@ -83,7 +92,7 @@ export const useResponseMutation = () => {
           type: "service",
           text: {
             index: -1,
-            summary: JSON.parse(error.message).message,
+            summary: message,
             question: "",
             hints: [],
           },
