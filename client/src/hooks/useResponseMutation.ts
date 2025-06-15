@@ -1,14 +1,21 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { ResponseType, ServiceTextType } from "../types/Response";
 import type { Error } from "../types/Error";
+import { useState } from "react";
 
 export const useResponseMutation = () => {
   const queryClient = useQueryClient();
-
+  const [stepCount, setStepCount] = useState(2);
+  const url =
+    import.meta.env.DEV === true
+      ? stepCount <= 3
+        ? `step/${stepCount}`
+        : "summary"
+      : `${import.meta.env.VITE_API_URL}/question`;
   const { mutate, error, isError } = useMutation({
     mutationKey: ["response"],
     mutationFn: async (text: string) => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/question`, {
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -67,6 +74,7 @@ export const useResponseMutation = () => {
           text: data.text,
         },
       ]);
+      setStepCount((prev) => prev + 1);
     },
     onError: (error) => {
       let message = "";
